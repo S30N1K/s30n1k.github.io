@@ -165,7 +165,7 @@ OOP.forInt(stats.w, i => {
     })
 });
 
-let count = 2000;
+let count = 1000;
 
 game.newLoopFromClassObject('index', new function () {
     this.update = function () {
