@@ -11,6 +11,7 @@ let math = pjs.math;
 let random = math.random;
 let colors = pjs.colors;
 sys.initFullPage();
+// test
 
 let key = pjs.keyControl.initKeyControl();
 
