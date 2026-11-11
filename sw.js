@@ -1,7 +1,7 @@
 
 const PREFIX = 'gravity-pwa-' + encodeURIComponent(new URL(self.registration.scope).pathname) + '-';
-const CACHE = PREFIX + 'mwc3qle3';
-const FILES = ["./","./index.html","./manifest.webmanifest","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/apple-touch-icon.png","./assets/index-CvgfWpzL.css","./assets/index-Cgu9Xkp8.js"];
+const CACHE = PREFIX + 'mwc5cpm7';
+const FILES = ["./","./index.html","./manifest.webmanifest","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/apple-touch-icon.png","./assets/index-BTlMdugO.css","./assets/index-D3M33ine.js"];
 const URLS = new Set(FILES.map(path => new URL(path, self.registration.scope).href));
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES.map(path =>
