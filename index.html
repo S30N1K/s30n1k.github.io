@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Гравити Трайал 2D</title>
-    <script type="module" crossorigin src="./assets/index-sphe6U2j.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-BwkSIqeo.css">
+    <script type="module" crossorigin src="./assets/index-Btg4NtNg.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-ZG-5roJL.css">
   </head>
   <body>
     <div id="app">
@@ -16,17 +16,23 @@
       <div id="touch-controls" aria-label="Экранное управление">
         <div class="touch-top"><button data-key="KeyR" aria-label="К чекпоинту">↻</button><button data-key="Escape" aria-label="Пауза">Ⅱ</button></div>
         <div class="touch-bottom">
-          <div><button data-key="ArrowLeft" aria-label="Наклон назад">◀</button><button data-key="ArrowRight" aria-label="Наклон вперёд">▶</button></div>
-          <div><button data-key="Space">Прыжок</button><button data-key="KeyS">Назад</button><button data-key="KeyQ">Тормоз</button><button data-key="ArrowUp" class="gas">Газ</button></div>
+          <div class="touch-steering"><button data-key="Space" class="jump" aria-label="Прыжок">Прыжок</button><button data-key="ArrowLeft" aria-label="Наклон назад">◀</button><button data-key="ArrowRight" aria-label="Наклон вперёд">▶</button></div>
+          <div class="touch-drive"><button data-key="KeyS" class="reverse" aria-label="Задний ход">Назад</button><button data-key="KeyQ" class="brake" aria-label="Тормоз">Тормоз</button><button data-key="ArrowUp" class="gas" aria-label="Газ">Газ</button></div>
         </div>
       </div>
+      <div id="controls-editor" hidden><p>Перетащите кнопки в удобные места</p><button id="controls-reset">Сбросить</button><button id="controls-done">Готово</button></div>
       <div id="screen-title" class="screen visible">
         <h1>ГРАВИТИ&nbsp;ТРАЙАЛ</h1>
         <p class="sub">2D-мототриал в духе Gravity Defied</p>
         <div class="menu">
           <button id="btn-play" class="big">Играть</button>
+          <label class="control-setting"><input id="training-mode" type="checkbox" /> Тренировка без поломок (без рекордов)</label>
+          <button id="configure-controls">Расположение кнопок</button>
           <button id="btn-editor" class="big">Редактор уровней</button>
           <button id="btn-mute">Звук: вкл</button>
+          <label class="control-setting">Кнопки на телефоне <select id="touch-size" aria-label="Размер экранных кнопок"><option value="normal">Обычные</option><option value="large">Крупные</option></select></label>
+          <div class="row map-actions"><button id="backup-export">Скачать прогресс</button><button id="backup-import">Восстановить прогресс</button><input id="backup-file" type="file" accept=".json,application/json" hidden /></div>
+          <p id="backup-status" role="status" class="sub"></p>
         </div>
         <div class="help">
           <p><b>↑/W</b> газ · <b>↓/S</b> назад · <b>Q</b> тормоз · <b>←/A и →/D</b> наклон · <b>Пробел</b> прыжок · <b>R</b> к чекпоинту · <b>Backspace</b> заново · <b>Esc</b> пауза</p>
@@ -36,11 +42,15 @@
       <div id="screen-levels" class="screen">
         <h2>Выбор уровня</h2>
         <div class="row map-actions"><input id="level-search" type="search" placeholder="Поиск карты" aria-label="Поиск карты" /><button id="btn-generate">🎲 Случайная карта</button><button id="load-maps">Загрузить карты JSON</button><input id="map-files" type="file" accept=".json,application/json" multiple hidden /></div>
+        <div class="row map-actions"><select id="level-difficulty" aria-label="Сложность"><option value="all">Любая сложность</option><option value="easy">Лёгкие</option><option value="medium">Средние</option><option value="hard">Сложные</option></select><select id="level-source" aria-label="Тип карт"><option value="all">Все карты</option><option value="builtin">Встроенные</option><option value="custom">Мои карты</option><option value="favorites">★ Избранные</option></select><select id="level-sort" aria-label="Сортировка трасс"><option value="default">Порядок кампании</option><option value="name">По названию</option><option value="short">Сначала короткие</option><option value="unplayed">Сначала непройденные</option></select></div>
+        <p id="campaign-progress" class="sub"></p>
         <p id="map-status" role="status" class="sub"></p>
         <div id="level-list" class="cards"></div>
         <button id="btn-levels-back">Назад</button>
       </div>
 
+      <button id="victory-skip" hidden>Пропустить анимацию</button>
+      <div id="screen-crash" class="screen overlay"><h2>Авария</h2><p id="crash-reason" role="status"></p><div class="menu"><button id="crash-retry" class="big">К чекпоинту</button><button id="crash-restart">Начать заново</button><button id="crash-skip">Пропустить уровень</button><button id="crash-exit">Выйти</button></div></div>
       <div id="screen-pause" class="screen overlay">
         <h2>Пауза</h2>
         <div class="menu">
@@ -56,9 +66,12 @@
         <p id="fin-time" class="time-big"></p>
         <p id="fin-best" class="sub"></p>
         <p id="fin-medal" class="sub"></p>
+        <div id="fin-stats" class="run-stats" aria-label="Статистика заезда"></div>
         <div class="menu">
           <button id="btn-next" class="big">Следующий уровень</button>
           <button id="btn-generate-more">🎲 Сгенерировать ещё</button>
+          <button id="btn-save-generated">Сохранить эту трассу</button>
+          <p id="generated-status" role="status" class="sub"></p>
           <button id="btn-retry">Ещё раз</button>
           <button id="btn-menu">В меню</button>
         </div>
@@ -82,6 +95,7 @@
           <button id="ed-zoom-out" aria-label="Уменьшить">Масштаб −</button>
           <label><input id="ed-snap" type="checkbox" checked /> Сетка 5</label>
           <button id="ed-play" class="big">▶ Тест</button>
+          <button id="ed-test-position">Тест с выбранного места</button>
           <button id="ed-save">Сохранить</button>
           <button id="ed-export">Экспорт</button>
           <button id="ed-import">Импорт</button>
