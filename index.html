@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Гравити Трайал 2D</title>
+    <script type="module" crossorigin src="./assets/index-CoTaU0JN.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DNr6vpz7.css">
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game-canvas"></canvas>
+
+      <div id="hud-hint">↑/W газ · ↓/S назад · Q тормоз · ←/→ наклон · Пробел — прыжок · R — к чекпоинту · Esc — пауза</div>
+
+      <div id="touch-controls" aria-label="Экранное управление">
+        <div class="touch-top"><button data-key="KeyR" aria-label="К чекпоинту">↻</button><button data-key="Escape" aria-label="Пауза">Ⅱ</button></div>
+        <div class="touch-bottom">
+          <div><button data-key="ArrowLeft" aria-label="Наклон назад">◀</button><button data-key="ArrowRight" aria-label="Наклон вперёд">▶</button></div>
+          <div><button data-key="Space">Прыжок</button><button data-key="KeyS">Назад</button><button data-key="KeyQ">Тормоз</button><button data-key="ArrowUp" class="gas">Газ</button></div>
+        </div>
+      </div>
+      <div id="screen-title" class="screen visible">
+        <h1>ГРАВИТИ&nbsp;ТРАЙАЛ</h1>
+        <p class="sub">2D-мототриал в духе Gravity Defied</p>
+        <div class="menu">
+          <button id="btn-play" class="big">Играть</button>
+          <button id="btn-editor" class="big">Редактор уровней</button>
+          <button id="btn-mute">Звук: вкл</button>
+        </div>
+        <div class="help">
+          <p><b>↑/W</b> газ · <b>↓/S</b> назад · <b>Q</b> тормоз · <b>←/A и →/D</b> наклон · <b>Пробел</b> прыжок · <b>R</b> к чекпоинту · <b>Backspace</b> заново · <b>Esc</b> пауза</p>
+        </div>
+      </div>
+
+      <div id="screen-levels" class="screen">
+        <h2>Выбор уровня</h2>
+        <div class="row map-actions"><input id="level-search" type="search" placeholder="Поиск карты" aria-label="Поиск карты" /><button id="load-maps">Загрузить карты JSON</button><input id="map-files" type="file" accept=".json,application/json" multiple hidden /></div>
+        <p id="map-status" role="status" class="sub"></p>
+        <div id="level-list" class="cards"></div>
+        <button id="btn-levels-back">Назад</button>
+      </div>
+
+      <div id="screen-pause" class="screen overlay">
+        <h2>Пауза</h2>
+        <div class="menu">
+          <button id="btn-resume" class="big">Продолжить</button>
+          <button id="btn-restart-cp">К чекпоинту</button>
+          <button id="btn-restart-level">Заново</button>
+          <button id="btn-quit">Выйти</button>
+        </div>
+      </div>
+
+      <div id="screen-finish" class="screen overlay">
+        <h2>Финиш!</h2>
+        <p id="fin-time" class="time-big"></p>
+        <p id="fin-best" class="sub"></p>
+        <div class="menu">
+          <button id="btn-next" class="big">Следующий уровень</button>
+          <button id="btn-retry">Ещё раз</button>
+          <button id="btn-menu">В меню</button>
+        </div>
+      </div>
+
+      <div id="editor-ui">
+        <div class="toolbar">
+          <input id="ed-name" type="text" value="Мой уровень" maxlength="32" />
+          <button data-tool="move" class="tool active" title="Перемещение точек">✥</button>
+          <button data-tool="add" class="tool" title="Добавить точку">＋</button>
+          <button data-tool="del" class="tool" title="Удалить точку">✕</button>
+          <button data-tool="start" class="tool" title="Точка старта">🚩</button>
+          <button data-tool="cp" class="tool" title="Чекпоинт">⚑</button>
+          <button data-tool="finish" class="tool" title="Финиш">🏁</button>
+          <button data-tool="gap" class="tool" title="Разрыв (прыжок)">✂️</button>
+          <span class="sep"></span>
+          <button id="ed-undo" title="Ctrl+Z">↶ Отмена</button>
+          <button id="ed-redo" title="Ctrl+Shift+Z">↷ Повтор</button>
+          <button id="ed-fit">Вся трасса</button>
+          <button id="ed-zoom-in" aria-label="Увеличить">Масштаб +</button>
+          <button id="ed-zoom-out" aria-label="Уменьшить">Масштаб −</button>
+          <label><input id="ed-snap" type="checkbox" checked /> Сетка 5</label>
+          <button id="ed-play" class="big">▶ Тест</button>
+          <button id="ed-save">Сохранить</button>
+          <button id="ed-export">Экспорт</button>
+          <button id="ed-import">Импорт</button>
+          <input id="ed-file" type="file" accept="application/json,.json" hidden />
+          <button id="ed-clear">Очистить</button>
+          <button id="ed-exit">Выход</button>
+        </div>
+        <div id="ed-hint"></div>
+      </div>
+    </div>
+  </body>
+</html>
