@@ -3,9 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#14242f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/png" href="./icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <title>Гравити Трайал 2D</title>
-    <script type="module" crossorigin src="./assets/index-BPq9f_vl.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-k7Z4Vxvv.css">
+    <script type="module" crossorigin src="./assets/index-Cgu9Xkp8.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CvgfWpzL.css">
   </head>
   <body>
     <div id="app">
@@ -25,6 +31,8 @@
         <h1>ГРАВИТИ&nbsp;ТРАЙАЛ</h1>
         <p class="sub">2D-мототриал в духе Gravity Defied</p>
         <div class="menu">
+          <div class="row map-actions"><button id="pwa-install">Установить игру</button><button id="pwa-update" hidden>Обновить игру</button></div>
+          <p id="pwa-status" role="status" class="sub"></p><p id="connection-status" role="status" class="sub"></p>
           <button id="btn-play" class="big">Играть</button>
           <label class="control-setting"><input id="training-mode" type="checkbox" /> Тренировка без поломок (без рекордов)</label>
           <button id="configure-controls">Расположение кнопок</button>
